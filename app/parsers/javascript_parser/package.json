@@ -1,0 +1,9 @@
+{
+  "name": "javascript-ast-bridge",
+  "version": "1.0.0",
+  "description": "TypeScript Compiler API AST Bridge for Express & OWASP Juice Shop route mapping",
+  "private": true,
+  "dependencies": {
+    "typescript": "^5.4.0"
+  }
+}
