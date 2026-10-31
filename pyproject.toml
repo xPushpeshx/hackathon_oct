@@ -1,0 +1,26 @@
+[project]
+name = "hackathon-oct"
+version = "0.1.0"
+description = "SAST/DAST correlation engine MVP foundation"
+requires-python = ">=3.11"
+dependencies = [
+  "Flask>=3.0.0",
+  "pydantic>=2.7.0",
+  "PyYAML>=6.0",
+  "pytest>=8.0.0",
+]
+
+[tool.setuptools]
+packages = [
+  "app",
+  "app.parsers",
+  "app.parsers.python_parser",
+  "app.parsers.javascript_parser",
+  "app.normalizer",
+  "app.schemas",
+  "engine",
+]
+
+[tool.pytest.ini_options]
+pythonpath = ["."]
+testpaths = ["tests"]

@@ -70,6 +70,8 @@ class FlaskDataflowAnalyzer:
             if isinstance(node, ast.Assign) and len(node.targets) == 1 and isinstance(node.targets[0], ast.Name):
                 var_name = node.targets[0].id
                 src = self._resolve_request_container_source(node.value)
+                if not src:
+                    src = self._resolve_expr_source(node.value, alias_sources)
                 if src:
                     alias_sources[var_name] = src
 
@@ -91,6 +93,16 @@ class FlaskDataflowAnalyzer:
                     src = self._resolve_expr_source(node.value, alias_sources)
                     if src:
                         add_param(key_str, src, node.lineno)
+
+        # Case C: a call like request.headers.get('X-Token') or form_data.get('email')
+        for node in ast.walk(fn_node):
+            if isinstance(node, ast.Call) and isinstance(node.func, ast.Attribute):
+                value_expr = node.func.value
+                if node.func.attr == "get" and node.args and isinstance(node.args[0], ast.Constant):
+                    if isinstance(node.args[0].value, str):
+                        src = self._resolve_expr_source(value_expr, alias_sources)
+                        if src:
+                            add_param(node.args[0].value, src, node.lineno)
 
         return parameters
 

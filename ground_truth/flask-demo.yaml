@@ -1,0 +1,21 @@
+vulnerabilities:
+  - route: /search
+    parameter: q
+    cwe: 89
+    family: sql_injection
+  - route: /profile
+    parameter: name
+    cwe: 79
+    family: xss
+  - route: /download/{param}
+    parameter: filename
+    cwe: 22
+    family: path_traversal
+  - route: /exec
+    parameter: cmd
+    cwe: 78
+    family: command_injection
+  - route: /redirect
+    parameter: next
+    cwe: 601
+    family: open_redirect

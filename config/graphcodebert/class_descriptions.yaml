@@ -1,0 +1,5 @@
+sql_injection: "SQL injection: user input concatenated into a SQL query"
+xss: "Cross-site scripting: unsafe user data rendered in HTML"
+path_traversal: "Path traversal: user input used to access local files"
+command_injection: "Command injection: user input passed to a shell command"
+open_redirect: "Open redirect: user-controlled destination redirect"

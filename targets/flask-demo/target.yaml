@@ -1,0 +1,5 @@
+target_id: flask-demo
+app_type: flask
+source_path: targets/flask-demo/app
+runtime_url: http://127.0.0.1:5000
+language_adapter: python

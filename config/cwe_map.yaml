@@ -1,0 +1,9 @@
+families:
+  sql_injection: [89, 564]
+  xss: [79, 80]
+  path_traversal: [22, 23, 36]
+  command_injection: [77, 78]
+  ssrf: [918]
+  open_redirect: [601]
+  xxe: [611]
+  code_injection: [94, 95]

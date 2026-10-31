@@ -1,0 +1,60 @@
+services:
+  flask-demo:
+    build:
+      context: ./targets/flask-demo
+    environment:
+      FLASK_APP: app/app.py
+    networks:
+      - flask-demo-net
+
+  zap:
+    image: ghcr.io/zaproxy/zaproxy:2.16.0
+    command:
+      - zap.sh
+      - -daemon
+      - -host
+      - 0.0.0.0
+      - -port
+      - "8080"
+      - -config
+      - api.key=${ZAP_API_KEY:-local-demo-zap-key}
+      - -config
+      - api.addrs.addr.name=.*
+      - -config
+      - api.addrs.addr.regex=true
+      - -config
+      - autoupdate.autoUpdateAddons=false
+    environment:
+      ZAP_API_KEY: ${ZAP_API_KEY:-local-demo-zap-key}
+    networks:
+      - flask-demo-net
+
+  engine:
+    image: python:3.11-slim
+    working_dir: /workspace
+    volumes:
+      - .:/workspace
+    environment:
+      PYTHONDONTWRITEBYTECODE: "1"
+      RUNTIME_URL: http://flask-demo:5000
+      ZAP_BASE_URL: http://zap:8080
+      ZAP_TARGET_URL: http://flask-demo:5000
+      ZAP_API_KEY: ${ZAP_API_KEY:-local-demo-zap-key}
+    command:
+      - sh
+      - -c
+      - >-
+        python -m pip install --no-cache-dir -e . semgrep==1.82.0 &&
+        python -m engine.cli scan --target flask-demo --profile config/scan_profile.yaml
+    depends_on:
+      - flask-demo
+      - zap
+    networks:
+      - flask-demo-net
+      - engine-egress
+
+networks:
+  flask-demo-net:
+    name: hackathon-oct-flask-demo
+    internal: true
+  engine-egress:

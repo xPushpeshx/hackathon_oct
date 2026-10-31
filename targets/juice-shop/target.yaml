@@ -1,0 +1,5 @@
+target_id: juice-shop
+app_type: express
+source_path: targets/juice-shop/app
+runtime_url: http://127.0.0.1:3000
+language_adapter: javascript

@@ -1,0 +1,84 @@
+rules:
+  - id: flask-request-to-command-execution
+    languages:
+      - python
+    mode: taint
+    pattern-sources:
+      - pattern-either:
+          - pattern: request.args.get(...)
+          - pattern: request.form.get(...)
+          - pattern: request.values.get(...)
+    pattern-sinks:
+      - pattern-either:
+          - pattern: os.system(...)
+          - pattern: subprocess.run(..., shell=True, ...)
+    message: Request data reaches a command execution sink.
+    severity: ERROR
+    metadata:
+      cwe: CWE-78
+
+  - id: flask-request-to-template-rendering
+    languages:
+      - python
+    mode: taint
+    pattern-sources:
+      - pattern-either:
+          - pattern: request.args.get(...)
+          - pattern: request.form.get(...)
+          - pattern: request.values.get(...)
+    pattern-sinks:
+      - pattern: render_template_string(...)
+    message: Request data reaches dynamic template rendering.
+    severity: WARNING
+    metadata:
+      cwe: CWE-79
+
+  - id: flask-request-to-redirect
+    languages:
+      - python
+    mode: taint
+    pattern-sources:
+      - pattern-either:
+          - pattern: request.args.get(...)
+          - pattern: request.form.get(...)
+          - pattern: request.values.get(...)
+    pattern-sinks:
+      - pattern: redirect(...)
+    message: Request data reaches a redirect destination.
+    severity: WARNING
+    metadata:
+      cwe: CWE-601
+
+  - id: flask-request-to-sql-execution
+    languages:
+      - python
+    mode: taint
+    pattern-sources:
+      - pattern-either:
+          - pattern: request.args.get(...)
+          - pattern: request.form.get(...)
+          - pattern: request.values.get(...)
+    pattern-sinks:
+      - pattern: $CURSOR.execute(...)
+    message: Request data reaches a SQL execution call.
+    severity: ERROR
+    metadata:
+      cwe: CWE-89
+
+  - id: flask-request-to-file-read
+    languages:
+      - python
+    mode: taint
+    pattern-sources:
+      - pattern-either:
+          - pattern: request.view_args
+          - pattern: request.args.get(...)
+    pattern-sinks:
+      - pattern-either:
+          - pattern: open($PATH, ...)
+          - pattern: $PATH.read_text(...)
+          - pattern: $PATH.read_bytes(...)
+    message: Request path data reaches a file read.
+    severity: ERROR
+    metadata:
+      cwe: CWE-22

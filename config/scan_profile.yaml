@@ -1,0 +1,15 @@
+total_minutes: 30
+focused_share: 0.6
+per_task_timeout_seconds: 120
+max_retries: 1
+weights:
+  map: 0.4
+  severity: 0.3
+  graphcodebert: 0.2
+  has_input: 0.1
+versions:
+  semgrep: 1.82.0
+  zap_image: ghcr.io/zaproxy/zaproxy:2.16.0
+  juice_shop_release: v20.3.0
+  graphcodebert_model: microsoft/graphcodebert-base
+  graphcodebert_revision: 2b0488a7bb0eefc7041f1bb2cad1ab26b0da269d

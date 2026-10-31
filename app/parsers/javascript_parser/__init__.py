@@ -23,3 +23,6 @@ class JavascriptSourceParser(BaseSourceParser):
         raw_routes = self.route_mapper.extract_routes(project_index)
         # Pass 3: Populate HTTP input parameters & 1-hop callees
         return self.dataflow_analyzer.enrich_routes(raw_routes, project_index)
+
+
+__all__ = ["JavascriptSourceParser", "TypeScriptASTIndexer", "ExpressRouteMapper", "ExpressDataflowAnalyzer"]

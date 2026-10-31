@@ -23,3 +23,6 @@ class PythonSourceParser(BaseSourceParser):
         raw_routes = self.route_mapper.extract_routes(project_index)
         # Pass 3: Extract HTTP parameters & 1-hop callees
         return self.dataflow_analyzer.enrich_routes(raw_routes, project_index)
+
+
+__all__ = ["PythonSourceParser", "PythonASTIndexer", "FlaskRouteMapper", "FlaskDataflowAnalyzer"]
