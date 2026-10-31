@@ -1,4 +1,4 @@
-# P06 — SAST/DAST Correlation Engine (MVP Plan)
+# SAST/DAST Correlation Engine (MVP Plan)
 
 ---
 
@@ -22,7 +22,7 @@
 
 ## 1. Goal
 
-Scan one web app at a time (**Flask demo** or **OWASP Juice Shop**) with a single pipeline:
+Scan one web app at a time (**Flask demo**[https://github.com/we45/Vulnerable-Flask-App] or **OWASP Juice Shop**) with a single pipeline:
 
 1. Find routes and request inputs in the source code (AST).
 2. Find suspicious code (Semgrep).
